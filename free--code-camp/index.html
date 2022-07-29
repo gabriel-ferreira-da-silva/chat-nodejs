@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<body>
+    <div clas ="container">
+        <br>
+        <div class = "jumbotron">
+            <h1 class ="display-4">Send message</h1>
+            <br>
+            <input id ="name" class="form-control" placeholder="name">
+            <br>
+            <textarea id = "message" class="form-control" placeholder="yout message here"></textarea>
+            <br>
+            <button id="send" class ="btn btn-success">Send</button>
+        </div>
+        <div id ="messages">
+
+        </div>
+    </div>
+    <script>
+        $(() => {
+    $("#send").click(()=>{
+       sendMessage({
+          name: $("#name").val(), 
+          message:$("#message").val()});
+        })
+      getMessages()
+    })
+    
+function addMessages(message){
+   $(“#messages”).append(`
+      <h4> ${message.name} </h4>
+      <p>  ${message.message} </p>`)
+   }
+   
+function getMessages(){
+  $.get('http://localhost:3000/messages', (data) => {
+   data.forEach(addMessages);
+   })
+ }
+ 
+function sendMessage(message){
+   $.post('http://localhost:3000/messages', message)
+ }
+    </script>
+</body>
+</html>
